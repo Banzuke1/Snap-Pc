@@ -28,7 +28,7 @@
     <uses-permission android:name="android.permission.HIGH_SAMPLING_RATE_SENSORS" />
 
 
-    <application
+    <application android:name="com.winlator.SnapApp"
         android:icon="@mipmap/ic_launcher"
         android:appCategory="game"
         android:isGame="true"
