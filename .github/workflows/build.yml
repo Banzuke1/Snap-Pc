@@ -18,6 +18,9 @@ jobs:
         with:
           packages: ''
       - run: sdkmanager "ndk;27.0.12077973" "cmake;3.22.1"
+      - run: bash fetch_assets.sh
+        env:
+          GH_TOKEN: ${{ github.token }}
       - run: chmod +x gradlew && ./gradlew assembleDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
