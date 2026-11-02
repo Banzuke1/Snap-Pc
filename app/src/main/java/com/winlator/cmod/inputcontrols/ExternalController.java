@@ -172,8 +172,8 @@ public class ExternalController {
     private void processJoystickInput(MotionEvent event, int historyPos) {
         state.thumbLX = getCenteredAxis(event, MotionEvent.AXIS_X, historyPos);
         state.thumbLY = getCenteredAxis(event, MotionEvent.AXIS_Y, historyPos);
-        state.thumbRX = getCenteredAxis(event, MotionEvent.AXIS_Z, historyPos);
-        state.thumbRY = getCenteredAxis(event, MotionEvent.AXIS_RZ, historyPos);
+        state.thumbRX = rightAxis(event, MotionEvent.AXIS_Z, MotionEvent.AXIS_RX, historyPos);
+        state.thumbRY = rightAxis(event, MotionEvent.AXIS_RZ, MotionEvent.AXIS_RY, historyPos);
 
         if (historyPos == -1) {
             float axisX = getCenteredAxis(event, MotionEvent.AXIS_HAT_X, historyPos);
@@ -483,6 +483,15 @@ public class ExternalController {
     }
 
 
+    private float rightAxis(MotionEvent e, int a, int b, int p) {
+        float va = getCenteredAxis(e, a, p);
+        float vb = getCenteredAxis(e, b, p);
+        InputDevice d = e.getDevice();
+        boolean trig = d != null && (d.getMotionRange(MotionEvent.AXIS_LTRIGGER) != null || d.getMotionRange(MotionEvent.AXIS_BRAKE) != null);
+        if (!trig && d != null && d.getMotionRange(b) != null) return vb;
+        return Math.abs(vb) > Math.abs(va) ? vb : va;
+    }
+
     public float getCenteredAxis(MotionEvent event, int axis, int historyPos) {
         if (axis == MotionEvent.AXIS_HAT_X || axis == MotionEvent.AXIS_HAT_Y) {
             float value = event.getAxisValue(axis);
@@ -498,7 +507,7 @@ public class ExternalController {
 
         if (Math.abs(value) <= flat) return 0.0f;
 
-        if (axis == MotionEvent.AXIS_X || axis == MotionEvent.AXIS_Y || axis == MotionEvent.AXIS_Z || axis == MotionEvent.AXIS_RZ) {
+        if (axis == MotionEvent.AXIS_X || axis == MotionEvent.AXIS_Y || axis == MotionEvent.AXIS_Z || axis == MotionEvent.AXIS_RZ || axis == MotionEvent.AXIS_RX || axis == MotionEvent.AXIS_RY) {
              return Math.abs(value) >= ControlElement.STICK_DEAD_ZONE ? value : 0.0f;
         }
 
