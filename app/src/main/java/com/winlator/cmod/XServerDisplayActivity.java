@@ -484,7 +484,8 @@ public class XServerDisplayActivity extends AppCompatActivity {
         if (!removeLoadingBarWhenBootingGames) preloaderDialog.show(R.string.starting_up);
 
         inputControlsManager = new InputControlsManager(this);
-        xServer = new XServer(new ScreenInfo(screenSize));
+        { com.snappc.optimizer.AutoProfile snapAp = com.snappc.optimizer.AutoProfile.choose(this); screenSize = snapAp.width + "x" + snapAp.height; }
+            xServer = new XServer(new ScreenInfo(screenSize));
         xServer.setWinHandler(winHandler);
 
         boolean[] winStarted = { false };
