@@ -26,7 +26,7 @@ public class Container {
         THUMBSTICK_UP, THUMBSTICK_DOWN, THUMBSTICK_LEFT, THUMBSTICK_RIGHT
     }
     public static final String DEFAULT_ENV_VARS = "WRAPPER_MAX_IMAGE_COUNT=0 VKD3D_SHADER_MODEL=6_6 ZINK_DESCRIPTORS=lazy ZINK_DEBUG=compact MESA_SHADER_CACHE_DISABLE=false MESA_SHADER_CACHE_MAX_SIZE=512MB mesa_glthread=true WINEESYNC=1 TU_DEBUG=noconform,sysmem DXVK_HUD=devinfo,version,gpuload,fps DXVK_DISABLE_TIMELINE_SEMAPHORES=1";
-    public static final String DEFAULT_SCREEN_SIZE = "1280x720";
+    public static final String DEFAULT_SCREEN_SIZE = "960x544";
     public static final String DEFAULT_GRAPHICS_DRIVER = "wrapper";
     public static final String DEFAULT_AUDIO_DRIVER = "alsa";
     public static final String DEFAULT_EMULATOR = "FEXCore";

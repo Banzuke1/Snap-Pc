@@ -39,6 +39,6 @@ public class AutoProfile {
             return new AutoProfile("COOL", 854, 480, 30, temp, level, thermal, plugged);
         if (plugged && temp < 36f && thermal == 0)
             return new AutoProfile("PERFORMANCE", 1280, 720, 30, temp, level, thermal, plugged);
-        return new AutoProfile("BALANCED", 960, 540, 30, temp, level, thermal, plugged);
+        return new AutoProfile("BALANCED", 960, 544, 30, temp, level, thermal, plugged);
     }
 }
