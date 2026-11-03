@@ -504,6 +504,7 @@ public class ExternalController {
 
         float flat = range.getFlat();
         float value = historyPos < 0 ? event.getAxisValue(axis) : event.getHistoricalAxisValue(axis, historyPos);
+value = com.snappc.controller.StickCenter.apply(event.getDeviceId(), axis, value);
 
         if (Math.abs(value) <= flat) return 0.0f;
 
