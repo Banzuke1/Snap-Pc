@@ -78,7 +78,11 @@ android {
     buildToolsVersion "35.0.0"
 
     defaultConfig {
-        applicationId "com.snappc.l8"
+<<<<<<< HEAD
+        applicationId "com.snappc.l9"
+=======
+        applicationId "com.snappc.l9"
+>>>>>>> parent of ec43585 (default driver 891.11)
         minSdkVersion 26
         // We’re preserving Winlator’s request to keep targetSdkVersion at 28
         targetSdkVersion 28
