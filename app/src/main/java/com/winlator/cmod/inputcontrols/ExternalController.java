@@ -179,10 +179,10 @@ public class ExternalController {
             float axisX = getCenteredAxis(event, MotionEvent.AXIS_HAT_X, historyPos);
             float axisY = getCenteredAxis(event, MotionEvent.AXIS_HAT_Y, historyPos);
 
-            state.dpad[0] = axisY == -1.0f && Math.abs(state.thumbLY) < ControlElement.STICK_DEAD_ZONE;
-            state.dpad[1] = axisX == 1.0f && Math.abs(state.thumbLX) < ControlElement.STICK_DEAD_ZONE;
-            state.dpad[2] = axisY == 1.0f && Math.abs(state.thumbLY) < ControlElement.STICK_DEAD_ZONE;
-            state.dpad[3] = axisX == -1.0f && Math.abs(state.thumbLX) < ControlElement.STICK_DEAD_ZONE;
+            state.dpad[0] = axisY == -1.0f;
+            state.dpad[1] = axisX == 1.0f;
+            state.dpad[2] = axisY == 1.0f;
+            state.dpad[3] = axisX == -1.0f;
         }
     }
 
@@ -368,9 +368,9 @@ public class ExternalController {
         int buttonIdx = getButtonIdxByKeyCode(keyCode);
         if (buttonIdx != -1) {
             if (buttonIdx == IDX_BUTTON_L2) {
-                return true;
+                state.triggerL = pressed ? 1.0f : 0.0f; state.setPressed(IDX_BUTTON_L2, pressed); return true;
             } else if (buttonIdx == IDX_BUTTON_R2) {
-                return true;
+                state.triggerR = pressed ? 1.0f : 0.0f; state.setPressed(IDX_BUTTON_R2, pressed); return true;
             } else
                 state.setPressed(buttonIdx, pressed);
             return true;
@@ -378,16 +378,16 @@ public class ExternalController {
 
         switch (keyCode) {
             case KeyEvent.KEYCODE_DPAD_UP:
-                state.dpad[0] = pressed && Math.abs(state.thumbLY) < ControlElement.STICK_DEAD_ZONE;
+                state.dpad[0] = pressed;
                 return true;
             case KeyEvent.KEYCODE_DPAD_RIGHT:
-                state.dpad[1] = pressed && Math.abs(state.thumbLX) < ControlElement.STICK_DEAD_ZONE;
+                state.dpad[1] = pressed;
                 return true;
             case KeyEvent.KEYCODE_DPAD_DOWN:
-                state.dpad[2] = pressed && Math.abs(state.thumbLY) < ControlElement.STICK_DEAD_ZONE;
+                state.dpad[2] = pressed;
                 return true;
             case KeyEvent.KEYCODE_DPAD_LEFT:
-                state.dpad[3] = pressed && Math.abs(state.thumbLX) < ControlElement.STICK_DEAD_ZONE;
+                state.dpad[3] = pressed;
                 return true;
         }
         return false;
@@ -418,16 +418,16 @@ public class ExternalController {
 //        // Handle D-pad directions with mappings
 //        switch (keyCode) {
 //            case KeyEvent.KEYCODE_DPAD_UP:
-//                state.dpad[0] = pressed && Math.abs(state.thumbLY) < ControlElement.STICK_DEAD_ZONE;
+//                state.dpad[0] = pressed;
 //                return true;
 //            case KeyEvent.KEYCODE_DPAD_RIGHT:
-//                state.dpad[1] = pressed && Math.abs(state.thumbLX) < ControlElement.STICK_DEAD_ZONE;
+//                state.dpad[1] = pressed;
 //                return true;
 //            case KeyEvent.KEYCODE_DPAD_DOWN:
-//                state.dpad[2] = pressed && Math.abs(state.thumbLY) < ControlElement.STICK_DEAD_ZONE;
+//                state.dpad[2] = pressed;
 //                return true;
 //            case KeyEvent.KEYCODE_DPAD_LEFT:
-//                state.dpad[3] = pressed && Math.abs(state.thumbLX) < ControlElement.STICK_DEAD_ZONE;
+//                state.dpad[3] = pressed;
 //                return true;
 //        }
 //        return false;
