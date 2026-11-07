@@ -367,7 +367,7 @@ public class ExternalController {
         int keyCode = event.getKeyCode();
         int buttonIdx = getButtonIdxByKeyCode(keyCode);
         if (buttonIdx != -1) {
-if (PadProfile.onKey(buttonIdx, pressed, state)) return true;
+if (PadProfile.onKey(buttonIdx, pressed, state, getDeviceId())) return true;
             if (buttonIdx == IDX_BUTTON_L2) {
                 state.triggerL = pressed ? 1.0f : 0.0f; state.setPressed(IDX_BUTTON_L2, pressed); return true;
             } else if (buttonIdx == IDX_BUTTON_R2) {
