@@ -479,8 +479,7 @@ if (PadProfile.onKey(buttonIdx, pressed, state, getDeviceId())) return true;
         if (device.getName() != null && device.getName().toLowerCase().contains("uinput-fpc")) return false;
         int sources = device.getSources();
         // Exclude devices with SOURCE_MOUSE from being considered controllers
-        return !device.isVirtual() && ((sources & InputDevice.SOURCE_GAMEPAD) == InputDevice.SOURCE_GAMEPAD ||
-                ((sources & InputDevice.SOURCE_JOYSTICK) == InputDevice.SOURCE_JOYSTICK && (sources & InputDevice.SOURCE_MOUSE) == 0));
+        return (sources & InputDevice.SOURCE_GAMEPAD) != 0 || ((sources & InputDevice.SOURCE_JOYSTICK) != 0 && (sources & InputDevice.SOURCE_MOUSE) == 0);
     }
 
 
