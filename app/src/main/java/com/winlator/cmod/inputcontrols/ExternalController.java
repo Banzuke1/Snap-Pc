@@ -362,7 +362,7 @@ public class ExternalController {
             processTriggerButton(event);
             int historySize = event.getHistorySize();
             for (int i = 0; i < historySize; i++) processJoystickInput(event, i);
-            processJoystickInput(event, -1);
+            processJoystickInput(event, -1); { float[] pa = com.snappc.controller.PadAuto.read(event); if (pa != null) { if (pa[5] != 0) { state.triggerL = pa[0]; state.setPressed(IDX_BUTTON_L2, pa[0] > 0.5f); } if (pa[6] != 0) { state.triggerR = pa[1]; state.setPressed(IDX_BUTTON_R2, pa[1] > 0.5f); } if (pa[4] != 0) { state.dpad[0] = pa[3] < -0.5f; state.dpad[1] = pa[2] > 0.5f; state.dpad[2] = pa[3] > 0.5f; state.dpad[3] = pa[2] < -0.5f; } } }
  PadProfile.onMotion(event, state);
             return true;
         }
