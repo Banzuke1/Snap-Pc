@@ -78,7 +78,7 @@ android {
     buildToolsVersion "35.0.0"
 
     defaultConfig {
-        applicationId "com.snappc.l18"
+        applicationId "com.snappc.l19"
         minSdkVersion 26
         // We’re preserving Winlator’s request to keep targetSdkVersion at 28
         targetSdkVersion 28

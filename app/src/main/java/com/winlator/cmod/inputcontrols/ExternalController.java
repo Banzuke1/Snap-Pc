@@ -330,20 +330,6 @@ public class ExternalController {
 
 
 //    public boolean updateStateFromMotionEvent(MotionEvent event) {
-        boolean r = updateStateFromMotionEventRaw(event);
-        if ((event.getSource() & android.view.InputDevice.SOURCE_JOYSTICK) != 0 && event.getAction() == MotionEvent.ACTION_MOVE) {
-            float[] pa = com.snappc.controller.PadAuto.read(event);
-            if (pa != null) {
-                if (pa[5] != 0) { state.triggerL = pa[0]; state.setPressed(IDX_BUTTON_L2, pa[0] > 0.5f); }
-                if (pa[6] != 0) { state.triggerR = pa[1]; state.setPressed(IDX_BUTTON_R2, pa[1] > 0.5f); }
-                if (pa[4] != 0) { state.dpad[0] = pa[3] < -0.5f; state.dpad[1] = pa[2] > 0.5f; state.dpad[2] = pa[3] > 0.5f; state.dpad[3] = pa[2] < -0.5f; }
-                r = true;
-            }
-        }
-        return r;
-    }
-
-    private boolean updateStateFromMotionEventRaw(MotionEvent event) {
 //        if (isJoystickDevice(event)) {
 //            // Check if the event contains trigger axis data
 //            boolean hasTriggerData = event.getAxisValue(MotionEvent.AXIS_LTRIGGER) != 0f ||
@@ -372,6 +358,20 @@ public class ExternalController {
 //    }
 
     public boolean updateStateFromMotionEvent(MotionEvent event) {
+        boolean r = updateStateFromMotionEventRaw(event);
+        if ((event.getSource() & android.view.InputDevice.SOURCE_JOYSTICK) != 0 && event.getAction() == MotionEvent.ACTION_MOVE) {
+            float[] pa = com.snappc.controller.PadAuto.read(event);
+            if (pa != null) {
+                if (pa[5] != 0) { state.triggerL = pa[0]; state.setPressed(IDX_BUTTON_L2, pa[0] > 0.5f); }
+                if (pa[6] != 0) { state.triggerR = pa[1]; state.setPressed(IDX_BUTTON_R2, pa[1] > 0.5f); }
+                if (pa[4] != 0) { state.dpad[0] = pa[3] < -0.5f; state.dpad[1] = pa[2] > 0.5f; state.dpad[2] = pa[3] > 0.5f; state.dpad[3] = pa[2] < -0.5f; }
+                r = true;
+            }
+        }
+        return r;
+    }
+
+    private boolean updateStateFromMotionEventRaw(MotionEvent event) {
         if (isJoystickDevice(event)) {
             processTriggerButton(event);
             int historySize = event.getHistorySize();
