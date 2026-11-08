@@ -188,9 +188,16 @@ public class ExternalController {
 
 
 
+    private static float trigZ(MotionEvent e, int z, int base) {
+        float b = e.getAxisValue(base);
+        android.view.InputDevice d = e.getDevice();
+        if (d != null && d.getMotionRange(MotionEvent.AXIS_RX) != null && d.getMotionRange(z) != null) b = Math.max(b, e.getAxisValue(z));
+        return b;
+    }
+
     private void processTriggerButton(MotionEvent event) {
-        float l = event.getAxisValue(MotionEvent.AXIS_LTRIGGER) == 0f ? event.getAxisValue(MotionEvent.AXIS_BRAKE) : event.getAxisValue(MotionEvent.AXIS_LTRIGGER);
-        float r = event.getAxisValue(MotionEvent.AXIS_RTRIGGER) == 0f ? event.getAxisValue(MotionEvent.AXIS_GAS) : event.getAxisValue(MotionEvent.AXIS_RTRIGGER);
+        float l = event.getAxisValue(MotionEvent.AXIS_LTRIGGER) == 0f ? trigZ(event, MotionEvent.AXIS_Z, MotionEvent.AXIS_BRAKE) : event.getAxisValue(MotionEvent.AXIS_LTRIGGER);
+        float r = event.getAxisValue(MotionEvent.AXIS_RTRIGGER) == 0f ? trigZ(event, MotionEvent.AXIS_RZ, MotionEvent.AXIS_GAS) : event.getAxisValue(MotionEvent.AXIS_RTRIGGER);
         state.triggerL = l;
         state.triggerR = r;
         state.setPressed(IDX_BUTTON_L2, l == 1.0f);
@@ -207,10 +214,10 @@ public class ExternalController {
     private void processXboxTriggerButton(MotionEvent event) {
         // Retrieve axis values for triggers
         float l = event.getAxisValue(MotionEvent.AXIS_LTRIGGER) == 0f
-                ? event.getAxisValue(MotionEvent.AXIS_BRAKE)
+                ? trigZ(event, MotionEvent.AXIS_Z, MotionEvent.AXIS_BRAKE)
                 : event.getAxisValue(MotionEvent.AXIS_LTRIGGER);
         float r = event.getAxisValue(MotionEvent.AXIS_RTRIGGER) == 0f
-                ? event.getAxisValue(MotionEvent.AXIS_GAS)
+                ? trigZ(event, MotionEvent.AXIS_RZ, MotionEvent.AXIS_GAS)
                 : event.getAxisValue(MotionEvent.AXIS_RTRIGGER);
 
         // Simulate full press by setting trigger values to 1.0f when pulled
@@ -235,8 +242,8 @@ public class ExternalController {
 
 //    private void processTriggerButton(MotionEvent event) {
 //        // Get the raw analog values of L2 and R2 triggers
-//        float l = event.getAxisValue(MotionEvent.AXIS_LTRIGGER) == 0f ? event.getAxisValue(MotionEvent.AXIS_BRAKE) : event.getAxisValue(MotionEvent.AXIS_LTRIGGER);
-//        float r = event.getAxisValue(MotionEvent.AXIS_RTRIGGER) == 0f ? event.getAxisValue(MotionEvent.AXIS_GAS) : event.getAxisValue(MotionEvent.AXIS_RTRIGGER);
+//        float l = event.getAxisValue(MotionEvent.AXIS_LTRIGGER) == 0f ? trigZ(event, MotionEvent.AXIS_Z, MotionEvent.AXIS_BRAKE) : event.getAxisValue(MotionEvent.AXIS_LTRIGGER);
+//        float r = event.getAxisValue(MotionEvent.AXIS_RTRIGGER) == 0f ? trigZ(event, MotionEvent.AXIS_RZ, MotionEvent.AXIS_GAS) : event.getAxisValue(MotionEvent.AXIS_RTRIGGER);
 //
 //        // Get the mapped buttons for L2 and R2
 //        byte leftTriggerMapped = getMappedButton(IDX_BUTTON_L2);
@@ -327,8 +334,8 @@ public class ExternalController {
 //            // Check if the event contains trigger axis data
 //            boolean hasTriggerData = event.getAxisValue(MotionEvent.AXIS_LTRIGGER) != 0f ||
 //                    event.getAxisValue(MotionEvent.AXIS_RTRIGGER) != 0f ||
-//                    event.getAxisValue(MotionEvent.AXIS_BRAKE) != 0f ||
-//                    event.getAxisValue(MotionEvent.AXIS_GAS) != 0f;
+//                    trigZ(event, MotionEvent.AXIS_Z, MotionEvent.AXIS_BRAKE) != 0f ||
+//                    trigZ(event, MotionEvent.AXIS_RZ, MotionEvent.AXIS_GAS) != 0f;
 //
 //            if (hasTriggerData) {
 ////                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -355,7 +362,8 @@ public class ExternalController {
             processTriggerButton(event);
             int historySize = event.getHistorySize();
             for (int i = 0; i < historySize; i++) processJoystickInput(event, i);
-            processJoystickInput(event, -1); PadProfile.onMotion(event, state);
+            processJoystickInput(event, -1);
+ PadProfile.onMotion(event, state);
             return true;
         }
         return false;
